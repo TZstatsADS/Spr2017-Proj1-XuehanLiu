@@ -1,7 +1,9 @@
 ---
-title: "R Notebook"
+title: "GR5243 Project 1"
 output: html_notebook
 ---
+
+As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at the 
 
 ```{r, message=FALSE, warning=FALSE}
 packages.used=c("rvest", "tibble", "qdap", 
@@ -65,8 +67,17 @@ inaug.list=read.csv("../data/inauglist.csv", stringsAsFactors = FALSE)
 ```
 
 Research Questions:
-Question1: Republican vs. Democratic
+
+Question1: Comparsion among parties of the United States of America. 
+
+In this problem, we just need to 
 1a. 
+
+```{r}
+table(as.factor(inaug.list$Party))/length(inaug.list$Party)
+```
+From the table above, 
+
 2a.
 
 Question2:
