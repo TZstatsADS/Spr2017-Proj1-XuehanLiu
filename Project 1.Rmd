@@ -3,7 +3,7 @@ title: "GR5243 Project 1"
 output: html_notebook
 ---
 
-As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at the 
+As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at old inaugural speeches given by other presidents. Before we are doing any further analysis, we load relative packages and our text file into R.
 
 ```{r, message=FALSE, warning=FALSE}
 packages.used=c("rvest", "tibble", "qdap", 
