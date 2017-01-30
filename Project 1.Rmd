@@ -3,7 +3,9 @@ title: "GR5243 Project 1"
 output: html_notebook
 ---
 
-As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at old inaugural speeches given by other presidents. Before we are doing any further analysis, we load relative packages and our text file into R.
+As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at all inaugural speeches given by presidents. 
+
+Before we are doing any further analysis, we load relative packages and our text file into R.
 
 ```{r, message=FALSE, warning=FALSE}
 packages.used=c("rvest", "tibble", "qdap", 
@@ -42,6 +44,7 @@ source("../lib/plotstacked.R")
 source("../lib/speechFuncs.R")
 ```
 
+
 ```{r, message=FALSE, warning=FALSE}
 ### Inauguaral speeches
 main.page <- read_html(x = "http://www.presidency.ucsb.edu/inaugurals.php")
@@ -66,25 +69,22 @@ farewell <- f.speechlinks(main.page)
 inaug.list=read.csv("../data/inauglist.csv", stringsAsFactors = FALSE)
 ```
 
-Research Questions:
-
-Question1: Comparsion among parties of the United States of America. 
-
-In this problem, we just need to 
-1a. 
+As we all know, Republican and Democratic are the two biggest parties in the America. So our focus is going to be at these parties. Before jump into the conclusion stated directly, we can use some graph and numerical tool to confirm this statement.  
 
 ```{r}
+library(ggplot2)
+speech.list$Party<-as.factor(speech.list$Party)
+speech.list$Win<-as.factor(speech.list$Win)
+levels(speech.list$Win)[1]<-"No"
+levels(speech.list$Win)[2]<-"Yes"
+ggplot(aes(x=Win,fill=Party),data=speech.list)+geom_bar(position="fill")+scale_fill_brewer(palette="Set1")+xlab("Winning Presidency")+ylab("Percent")+coord_flip()+theme_bw()+ggtitle("Figure1: Propotion of Winning Presidency")+theme(plot.title=element_text(lineheight=.8))
 table(as.factor(inaug.list$Party))/length(inaug.list$Party)
 ```
-From the table above, 
 
-2a.
-
-Question2:
+From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
 
 
-QUestion3:
-
+2. In different time period, do presidents from different parites focus on different aspects?
 
 ```{r}
 
