@@ -84,11 +84,18 @@ table(as.factor(inaug.list$Party))/length(inaug.list$Party)
 From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
 
 
-2. In different time period, do presidents from different parites focus on different aspects?
+2. Over the time, do Repbulican and Democratic focus on different aspects?
+
+In order to approach this question, we need to extract the most common useful words in the text and get rid of punctuations. Notice that the phrase "useful words" means words that contains useful meaning in a inaugural speech, and should not be those words who are like "people", "we", or "will", etc. Based on this, our first task should be removing this kind of words.   
 
 ```{r}
-
-
+#Create a function that removes punctuation in the inaugural speech:
+removepunc <- function(text.file){
+  text.file.re<-tm_map(text.file, removePunctuation)
+  return(text.file.re)
+}
+AL1<-read.t("inaugAbrahamLincoln-1.txt")
+removepunc(inaugAbrahamLincoln-1)
 ```
 
 
