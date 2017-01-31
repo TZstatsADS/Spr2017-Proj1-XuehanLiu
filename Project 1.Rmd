@@ -134,8 +134,8 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 
 
 
-```{r}
 
+```{r}
 tdm.tidy<-tidy(tdm)
 tdm.overall<-summarise(group_by(tdm.tidy, term), sum(count))
 
