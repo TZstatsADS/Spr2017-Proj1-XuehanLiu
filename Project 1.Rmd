@@ -91,24 +91,7 @@ table(as.factor(inaug.list$Party))/length(inaug.list$Party)
 
 From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
 
-2. Over the time, do Repbulican and Democratic focus on different aspects?
-
-In order to approach this question, we need to extract the most common useful words in the text and get rid of punctuations. Notice that the phrase "useful words" means words that contains useful meaning in a inaugural speech, and should not be those words who are like "people", "we", or "will", etc. Based on this, our first task should be removing this kind of words.   
-
-```{r}
-text<-tm_map(text, removeWords, stopwords("english"))
-text <- tm_map(text, stripWhitespace)
-text <- tm_map(text, content_transformer(tolower))
-text <- tm_map(text, removeWords, character(0))
-text <- tm_map(text, removeWords, stopwords("english"))
-text<-tm_map(text, removePunctuation)
-#text <- tm_map(text, PlainTextDocument) 
-
-#Check out the wordcloud first
-wordcloud(text,random.order=F,scale=c(3,0.5))
-```
-
-
+2. Do Repbulican and Democratic focus on different aspects?
 
 ```{r}
 library(tm)
@@ -116,6 +99,42 @@ library(RColorBrewer)
 library(wordcloud)
 library(dplyr)
 library(tidytext)
+
+text<-tm_map(text, removeWords, stopwords("english"))
+text <- tm_map(text, stripWhitespace)
+text <- tm_map(text, content_transformer(tolower))
+text <- tm_map(text, removeWords, character(0))
+text <- tm_map(text, removeWords, stopwords("english"))
+text<-tm_map(text, removePunctuation)
+text <- tm_map(text, PlainTextDocument) 
+
+#Check the overall wordcloud first:
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+```
+One thing we can use the overall wordcloud for is to continue removing unuseful words in the speeches. Based on the wordcloud above, we probably should eliminate words like will,people, government,shall, may, must, made, world,etc. We can repeat this steps many times and choose the most useful set of words to you. 
+
+```{r}
+#remove unuseful words mentioned above
+text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new"))
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=20,colors=rainbow(40))
+```
+From the above wordcloud image, most of the words actually make sense.So we can start the comparison for Republican party and Democratic party from here.
+
+```{r}
+#Extract speeches for Democratic
+demo<-text[which(inaug.list$Party=="Democratic")]
+
+#Extract speeches for Republican 
+repub<-text[which(inaug.list$Party=="Republican")]
+
+#Check out the wordcloud of most frequent words for Democratic
+wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+```
+
+
+
+```{r}
 
 tdm.tidy<-tidy(tdm)
 tdm.overall<-summarise(group_by(tdm.tidy, term), sum(count))
