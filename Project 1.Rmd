@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 ####Introduction
-The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be three questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? 2) Who are typical representatives for each party by text analysis? and 3) what sentiments they carries in their speeches? With the answer to all those questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
+The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? With the answer to both questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
 
 ###Laoding data, packages and cleaning up
 Before we are doing any further analysis, we load relative packages and our text file into R.
@@ -113,36 +113,10 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 
 Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
 
-####Question 2: Who are typical representatives for each party by text analysis?
-
-```{r, message=FALSE, warning=FALSE}
-
-```
-
-####Question 3: what sentiments they carries in their speeches?
+####Question 2: for those who are considered as typical representative presidents in the history, what sentiments they carries in their speeches?
 
 ```{r}
-### Inauguaral speeches
-main.page <- read_html(x = "http://www.presidency.ucsb.edu/inaugurals.php")
-# Get link URLs
-# f.speechlinks is a function for extracting links from the list of speeches. 
-inaug=f.speechlinks(main.page)
-#head(inaug)
-as.Date(inaug[,1], format="%B %e, %Y")
-inaug=inaug[-nrow(inaug),] # remove the last line, irrelevant due to error.
 
-#### Nomination speeches
-main.page=read_html("http://www.presidency.ucsb.edu/nomination.php")
-# Get link URLs
-nomin <- f.speechlinks(main.page)
-#head(nomin)
-#
-#### Farewell speeches
-main.page=read_html("http://www.presidency.ucsb.edu/farewell_addresses.php")
-# Get link URLs
-farewell <- f.speechlinks(main.page)
-
-inaug.list=read.csv("../data/inauglist.csv", stringsAsFactors = FALSE)
 ```
 
 
