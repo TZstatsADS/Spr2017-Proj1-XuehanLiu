@@ -91,7 +91,7 @@ table(as.factor(inaug.list$Party))/length(inaug.list$Party)
 
 From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
 
-2. Do Repbulican and Democratic focus on different aspects?
+2. Do Repbulican and Democratic focus on different aspects? Who are typical representatives for each party by text analysis? and what sentiments they carry in their speech?
 
 ```{r}
 library(tm)
@@ -133,6 +133,7 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 ```
 
 Looking at the those two wordcloud above, we can see the Republicans tends to 
+
 
 
 ####Use beeswarm function
