@@ -4,11 +4,10 @@ output: html_notebook
 ---
 
 ####Introduction
-As the new president Donald Trump's just gave his new inaugural speech, in this project, we are going to looking at other inaugural speeches given by presidents. This project will focus on only Repbulican and Democratic among all those political parties in America. There will be three questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? 2) Who are typical representatives for each party by text analysis? and 3) what sentiments they carries in their speeches? With the answer to all those questions, we will have a deeper understanding of both the Repbulican and Democratic parties. 
+The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be three questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? 2) Who are typical representatives for each party by text analysis? and 3) what sentiments they carries in their speeches? With the answer to all those questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
 
-####Laoding data, packages and cleaning up
+###Laoding data, packages and cleaning up
 Before we are doing any further analysis, we load relative packages and our text file into R.
-
 ```{r, message=FALSE, warning=FALSE}
 packages.used=c("rvest", "tibble", "qdap", 
                 "sentimentr", "gplots", "dplyr",
@@ -54,7 +53,7 @@ folder<-file.path("~", "Desktop", "InauguralSpeeches")
 text<-Corpus(DirSource(folder))
 ```
 
-###Check whether 
+###Check whether Repbulican and Democratic are indeed domain the political parties in the US. 
 
 As we all know, Republican and Democratic are the two biggest parties in the America. So our focus is going to be at these parties. Before jump into the conclusion stated directly, we can use some graph and numerical tool to confirm this statement.  
 
@@ -70,7 +69,7 @@ table(as.factor(inaug.list$Party))/length(inaug.list$Party)
 
 From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
 
-2. Do Repbulican and Democratic focus on different aspects? Who are typical representatives for each party by text analysis? and what sentiments they carry in their speech?
+####Question 1: Do Repbulican and Democratic focus on different aspects? 
 
 ```{r}
 library(tm)
@@ -97,6 +96,7 @@ One thing we can use the overall wordcloud for is to continue removing unuseful 
 text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new"))
 wordcloud(text,random.order=F,scale=c(3,0.5),max.word=20,colors=rainbow(40))
 ```
+
 From the above wordcloud image, most of the words actually make sense.So we can start the comparison for Republican party and Democratic party from here.
 
 ```{r}
@@ -113,8 +113,15 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 
 Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
 
-####
+####Question 2: Who are typical representatives for each party by text analysis?
+
 ```{r, message=FALSE, warning=FALSE}
+
+```
+
+####Question 3: what sentiments they carries in their speeches?
+
+```{r}
 ### Inauguaral speeches
 main.page <- read_html(x = "http://www.presidency.ucsb.edu/inaugurals.php")
 # Get link URLs
@@ -136,11 +143,6 @@ main.page=read_html("http://www.presidency.ucsb.edu/farewell_addresses.php")
 farewell <- f.speechlinks(main.page)
 
 inaug.list=read.csv("../data/inauglist.csv", stringsAsFactors = FALSE)
-```
-
-####Use beeswarm function
-```{r}
-
 ```
 
 
