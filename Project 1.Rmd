@@ -115,9 +115,10 @@ Looking at the those two wordcloud above, we can see the some of the Republican'
 
 ####Question 2: for those who are considered as typical representative presidents in the history, what sentiments they carries in their speeches?
 
-According to the paper published in 
+According to the article published in mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five 
 Repubilican: Abraham Lincoln, Ulysses S. Grant, Theodore Roosevelt, Dwight D. Eisenhower, Ronald Reagan
 
+Democratic: Franklin D. Roosevelt, Woodrow Wilson, Andrew Jackson, Harry S. Truman, and John F. Kennedy
 ```{r}
 
 ```
