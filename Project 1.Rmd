@@ -132,7 +132,8 @@ wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 ```
 
-Looking at the those two wordcloud above, we can see the Republicans tends to 
+Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
+
 
 
 
