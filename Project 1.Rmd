@@ -128,10 +128,11 @@ demo<-text[which(inaug.list$Party=="Democratic")]
 repub<-text[which(inaug.list$Party=="Republican")]
 
 #Check out the wordcloud of most frequent words for Democratic
-wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(20))
 wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 ```
 
+Looking at the those two wordcloud above, we can see the Republicans tends to 
 
 
 
@@ -162,6 +163,3 @@ dtms <- removeSparseTerms(textm, 0.1) # This makes a matrix that is 10% empty sp
 ```
 
 
-```{r}
-
-```
