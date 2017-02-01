@@ -135,12 +135,12 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
 Looking at the those two wordcloud above, we can see the Republicans tends to 
 
 
-
+####Use beeswarm function
 ```{r}
 
 ```
 
-
+####
 
 
 
