@@ -115,6 +115,9 @@ Looking at the those two wordcloud above, we can see the some of the Republican'
 
 ####Question 2: for those who are considered as typical representative presidents in the history, what sentiments they carries in their speeches?
 
+According to the paper published in 
+Repubilican: Abraham Lincoln, Ulysses S. Grant, Theodore Roosevelt, Dwight D. Eisenhower, Ronald Reagan
+
 ```{r}
 
 ```
