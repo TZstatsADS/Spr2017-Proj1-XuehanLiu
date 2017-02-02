@@ -139,8 +139,46 @@ Democratic: Franklin D. Roosevelt, Woodrow Wilson, Andrew Jackson, Harry S. Trum
 
 We will study the inaugural speeches from these ten presidents and conduct the sentiment analysis. 
 
-```{r}
+###Generate sentences list by code given in the prof. Zheng's tutorial 2:
+```{r, message=FALSE, warning=FALSE}
+sentence.list=NULL
+for(i in 1:nrow(speech.list)){
+  sentences=sent_detect(speech.list$fulltext[i],
+                        endmarks = c("?", ".", "!", "|",";"))
+  if(length(sentences)>0){
+    emotions=get_nrc_sentiment(sentences)
+    word.count=word_count(sentences)
+    # colnames(emotions)=paste0("emo.", colnames(emotions))
+    # in case the word counts are zeros?
+    emotions=diag(1/(word.count+0.01))%*%as.matrix(emotions)
+    sentence.list=rbind(sentence.list, 
+                        cbind(speech.list[i,-ncol(speech.list)],
+                              sentences=as.character(sentences), 
+                              word.count,
+                              emotions,
+                              sent.id=1:length(sentences)
+                              )
+    )
+  }
+}
+```
 
+```{r, fig.height=2.5, fig.width=2}
+#Sentiment analysis for Repubilican presidents: 
+
+par(mfrow=c(5,1), mar=c(1,0,2,0), bty="n", xaxt="n", yaxt="n", font.main=1)
+
+f.plotsent.len(In.list=sentence.list, InFile="HillaryClinton", 
+               InType="nomin", InTerm=1, President="Hillary Clinton")
+
+f.plotsent.len(In.list=sentence.list, InFile="DonaldJTrump", 
+               InType="nomin", InTerm=1, President="Donald Trump")
+
+f.plotsent.len(In.list=sentence.list, InFile="BarackObama", 
+               InType="nomin", InTerm=1, President="Barack Obama")
+
+f.plotsent.len(In.list=sentence.list, InFile="GeorgeWBush", 
+               InType="nomin", InTerm=1, President="George W. Bush")
 ```
 
 
