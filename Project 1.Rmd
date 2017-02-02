@@ -161,24 +161,20 @@ for(i in 1:nrow(speech.list)){
     )
   }
 }
+
+sentence.list=sentence.list%>%filter(!is.na(word.count))
 ```
+
+
 
 ```{r, fig.height=2.5, fig.width=2}
 #Sentiment analysis for Repubilican presidents: 
+#Creat a subset that contains five Repubilican presidents mentioned above
+FiveRepub<-
+ 
+#Creat a subset that contains five Democratic presidents mentioned above
+FiveDemo<-
 
-par(mfrow=c(5,1), mar=c(1,0,2,0), bty="n", xaxt="n", yaxt="n", font.main=1)
-
-f.plotsent.len(In.list=sentence.list, InFile="HillaryClinton", 
-               InType="nomin", InTerm=1, President="Hillary Clinton")
-
-f.plotsent.len(In.list=sentence.list, InFile="DonaldJTrump", 
-               InType="nomin", InTerm=1, President="Donald Trump")
-
-f.plotsent.len(In.list=sentence.list, InFile="BarackObama", 
-               InType="nomin", InTerm=1, President="Barack Obama")
-
-f.plotsent.len(In.list=sentence.list, InFile="GeorgeWBush", 
-               InType="nomin", InTerm=1, President="George W. Bush")
 ```
 
 
