@@ -43,14 +43,26 @@ library("topicmodels")
 
 #source("../lib/plotstacked.R")
 #source("../lib/speechFuncs.R")
+
+
+inaug.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/inauglist.csv", stringsAsFactors = FALSE)
+nomin.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/nominlist.csv", stringsAsFactors = FALSE)
+farewell.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/farewelllist.csv", stringsAsFactors = FALSE)
+speech.list=rbind(inaug.list, nomin.list, farewell.list)
+speech.list$type=c(rep("inaug", nrow(inaug.list)),
+                   rep("nomin", nrow(nomin.list)),
+                   rep("farewell", nrow(farewell.list)))
+speech.url=rbind(inaug.list, nomin.list, farewell.list)
+speech.list=cbind(speech.list, speech.url)
 ```
+
 
 ###Load the speeches:
 ```{r}
 #Load the speeches:
-folder<-file.path("~", "Desktop", "InauguralSpeeches")
-#speeches<-list.files(path = folder, pattern = "*.txt")
-text<-Corpus(DirSource(folder))
+folder.path<-file.path("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/InauguralSpeeches/")
+#speeches<-list.files(path = folder.path, pattern = "*.txt")
+text<-Corpus(DirSource(folder.path))
 ```
 
 ###Check whether Repbulican and Democratic are indeed domain the political parties in the US. 
@@ -78,11 +90,10 @@ library(wordcloud)
 library(dplyr)
 library(tidytext)
 
+text <- tm_map(text, content_transformer(tolower))
 text<-tm_map(text, removeWords, stopwords("english"))
 text <- tm_map(text, stripWhitespace)
-text <- tm_map(text, content_transformer(tolower))
 text <- tm_map(text, removeWords, character(0))
-text <- tm_map(text, removeWords, stopwords("english"))
 text<-tm_map(text, removePunctuation)
 text <- tm_map(text, PlainTextDocument) 
 
@@ -93,35 +104,46 @@ One thing we can use the overall wordcloud for is to continue removing unuseful 
 
 ```{r}
 #remove unuseful words mentioned above
-text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new"))
-wordcloud(text,random.order=F,scale=c(3,0.5),max.word=20,colors=rainbow(40))
+text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new","the","make","without","american","well","time","among","know","years","just","many"))
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 ```
 
 From the above wordcloud image, most of the words actually make sense.So we can start the comparison for Republican party and Democratic party from here.
 
 ```{r}
 #Extract speeches for Democratic
-demo<-text[which(inaug.list$Party=="Democratic")]
+#First find presidents who are Democratic:
+demop<-inaug.list[which(inaug.list$Party=="Democratic"),]$President
+#length(demop)
+#Totally there should be 22 presidents
+demo<-text[c(3:6,12:16,22:24,26,28,33,35,37,38,52,53,56,57)]
 
 #Extract speeches for Republican 
-repub<-text[which(inaug.list$Party=="Republican")]
+repp<-inaug.list[which(inaug.list$Party=="Republican"),]$President
+repub<-text[c(1,2,7:11,17,20,21,25,27,39:44,47:49,51,54,55)]
 
 #Check out the wordcloud of most frequent words for Democratic
-wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
-wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
+wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 ```
 
 Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
 
-####Question 2: for those who are considered as typical representative presidents in the history, what sentiments they carries in their speeches?
+####Question 2: for those who are considered as "best" (representative) presidents in the history, what sentiments they carries in their speeches?
 
-According to the article published in mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five 
+According to the article published in the website mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five presidents for each party, listed as following: 
+
 Repubilican: Abraham Lincoln, Ulysses S. Grant, Theodore Roosevelt, Dwight D. Eisenhower, Ronald Reagan
 
 Democratic: Franklin D. Roosevelt, Woodrow Wilson, Andrew Jackson, Harry S. Truman, and John F. Kennedy
+
+We will study the inaugural speeches from these ten presidents and conduct the sentiment analysis. 
+
 ```{r}
 
 ```
+
+
 
 
 
