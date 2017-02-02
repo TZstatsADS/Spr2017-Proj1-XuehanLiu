@@ -168,10 +168,25 @@ sentence.list=sentence.list%>%filter(!is.na(word.count))
 
 
 ```{r, fig.height=2.5, fig.width=2}
-#Sentiment analysis for Repubilican presidents: 
 #Creat a subset that contains five Repubilican presidents mentioned above
-FiveRepub<-
- 
+FiveRepub<- sentence.list[sentence.list$President==c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan"),13:22]
+
+#Extract sentiment score for five presidents:
+AL<-sentence.list[which(sentence.list$President=="Abraham Lincoln"),13:22]
+UG<-sentence.list[which(sentence.list$President=="Ulysses S. Grant"),13:22]
+TR<-sentence.list[which(sentence.list$President=="Theodore Roosevelt"),13:22]
+DE<-sentence.list[which(sentence.list$President=="Dwight D. Eisenhower"),13:22]
+RR<-sentence.list[which(sentence.list$President=="Ronald Reagan"),13:22]
+
+
+#Average sentiment scores for five presidents:
+apply(AL,2,mean)
+apply(UG,2,mean)
+apply(TR,2,mean)
+apply(DE,2,mean)
+apply(RR,2,mean)
+
+
 #Creat a subset that contains five Democratic presidents mentioned above
 FiveDemo<-
 
