@@ -204,8 +204,11 @@ apply(AJ,2,mean)
 apply(HT,2,mean)
 apply(JK,2,mean)
 
+#Load the sentiment score data:
+sscore<-
 #Plot of those sentiments scores:
-ggplot(data=FiveRepub,ase(x=,y=))
+
+ggplot(data=,ase(x=,y=))
 plot(FiveRepub[,1],type="l",col="red")
 ```
 
