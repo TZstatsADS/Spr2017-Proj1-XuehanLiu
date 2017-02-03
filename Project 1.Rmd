@@ -4,10 +4,11 @@ output: html_notebook
 ---
 
 ####Introduction
-The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? With the answer to both questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
+The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
 
-###Laoding data, packages and cleaning up
+###Laoding Data, Packages and Cleaning Up
 Before we are doing any further analysis, we load relative packages and our text file into R.
+
 ```{r, message=FALSE, warning=FALSE}
 packages.used=c("rvest", "tibble", "qdap", 
                 "sentimentr", "gplots", "dplyr",
@@ -129,7 +130,7 @@ wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 
 Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
 
-####Question 2: for those who are considered as "best" (representative) presidents in the history, what sentiments they carries in their speeches?
+####Question 2: for those who are considered as "best" (representative) presidents in the history, what is the difference in the speeches' sentiments/emotions for two ?
 
 According to the article published in the website mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five presidents for each party, listed as following: 
 
@@ -165,11 +166,10 @@ for(i in 1:nrow(speech.list)){
 sentence.list=sentence.list%>%filter(!is.na(word.count))
 ```
 
-
+####Conduct the Analysis
 
 ```{r}
 #Creat a subset that contains five Repubilican presidents mentioned above
-#FiveRepub<- sentence.list[sentence.list$President==c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan"),13:22]
 
 #Extract sentiment score for five presidents:
 AL<-na.omit(sentence.list[which(sentence.list$President=="Abraham Lincoln"),13:22])
@@ -187,9 +187,6 @@ des<-apply(DE,2,mean)
 rrs<-apply(RR,2,mean)
 
 #Then we can record this information in a speard sheet in Excel for future use. 
-
-#FiveRepub<-cbind(data.frame(apply(AL,2,mean)),data.frame(apply(UG,2,mean)),data.frame(apply(TR,2,mean)),data.frame(apply(DE,2,mean)),data.frame(apply(RR,2,mean)))
-#colnames(FiveRepub)<-c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan")
 
 #Repeat the same step as above for five Democratic Presidents:
 FR<-na.omit(sentence.list[which(sentence.list$President=="Franklin D. Roosevelt"),13:22])
@@ -213,12 +210,11 @@ sscore$President<-as.factor(sscore$President)
 
 #Plot of those sentiments scores:
 ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
-  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()+labs(x="Emotions",y="Emotion Scores")
-
+  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()+labs(x="Emotions / Sentiments",y="Emotion Scores")
 
 ```
 
-
+Based on the 
 
 
 
