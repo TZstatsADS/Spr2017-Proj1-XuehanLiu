@@ -1,0 +1,212 @@
+---
+title: "GR5243 Project1 by Xuehan Liu (xl2615)"
+output:
+  html_notebook: default
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+####Introduction
+The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding how well both the Repbulican and Democratic do to integrate their parties' philosophy. 
+
+###Loading Data, Packages and Cleaning Up
+Before we are doing any analysis, we load relative packages and text files into R.
+
+```{r, message=FALSE, warning=FALSE}
+library("rvest")
+library("tibble")
+library("qdap")
+library("sentimentr")
+library("gplots")
+library("dplyr")
+library("tm")
+library("syuzhet")
+library("factoextra")
+library("beeswarm")
+library("scales")
+library("RColorBrewer")
+library("RANN")
+library("tm")
+library("topicmodels")
+library("wordcloud")
+
+
+inaug.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/inauglist.csv", stringsAsFactors = FALSE)
+nomin.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/nominlist.csv", stringsAsFactors = FALSE)
+farewell.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/farewelllist.csv", stringsAsFactors = FALSE)
+speech.list=rbind(inaug.list, nomin.list, farewell.list)
+speech.list$type=c(rep("inaug", nrow(inaug.list)),
+                   rep("nomin", nrow(nomin.list)),
+                   rep("farewell", nrow(farewell.list)))
+speech.url=rbind(inaug.list, nomin.list, farewell.list)
+speech.list=cbind(speech.list, speech.url)
+
+
+#Load the speeches:
+folder.path<-file.path("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/InauguralSpeeches/")
+#speeches<-list.files(path = folder.path, pattern = "*.txt")
+text<-Corpus(DirSource(folder.path))
+```
+
+
+###Propotion of Repbulican and Democratic in the political parties in US. 
+
+As we all know, Republican and Democratic are the two biggest parties in the America. So our focus is going to be only these two parties. Before jump into the conclusion stated directly, we can use some graphical and numerical tool to confirm this statement.  
+
+```{r}
+library(ggplot2)
+speech.list$Party<-as.factor(speech.list$Party)
+speech.list$Win<-as.factor(speech.list$Win)
+levels(speech.list$Win)[1]<-"No"
+levels(speech.list$Win)[2]<-"Yes"
+ggplot(aes(x=Win,fill=Party),data=speech.list)+geom_bar(position="fill")+scale_fill_brewer(palette="Set1")+xlab("Winning Presidency")+ylab("Percent")+coord_flip()+theme_bw()+ggtitle("Figure1: Propotion of Winning Presidency")+theme(plot.title=element_text(lineheight=.8))
+table(as.factor(inaug.list$Party))/length(inaug.list$Party)
+```
+
+From this Mosaic plot, we can see those presidents who won presidency, most of them are from Republican Party. This idea is also supported by the table summary above. So from now on, our analysis can only be about Republican and Democratic. 
+
+####Question 1: Do Repbulican and Democratic focus on different aspects? 
+
+In this question, we use wordcloud method to illustrate important aspects that presidents may cover in their inaugural speeches by extracting keys words. These key words contains the main philosophy of the party a president represents. 
+
+Before going to either Repubilican or Democratic directly, let us look at the overall wordcloud for inaugural speeches.
+```{r}
+text <- tm_map(text, content_transformer(tolower))
+text<-tm_map(text, removeWords, stopwords("english"))
+text <- tm_map(text, stripWhitespace)
+text <- tm_map(text, removeWords, character(0))
+text<-tm_map(text, removePunctuation)
+text <- tm_map(text, PlainTextDocument) 
+
+#Check the overall wordcloud first:
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=50,colors=rainbow(40))
+```
+
+One thing we can use this overall wordcloud for is to continue removing unuseful words in the speeches. Based on the wordcloud above, we probably should eliminate words like "will, people, government, shall, may, must, made, world",etc. We can repeat this step many times and finally choose the set of words that looks most useful and meaningful to you. 
+
+```{r}
+#Remove unuseful words mentioned above
+text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new","the","make","without","american","well","time","among","know","years","just","many"))
+
+#New Wordcloud:
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
+```
+
+From the above wordcloud image, most of the words actually make sense. So we can start the comparison for Republican party and Democratic party from here.
+
+```{r}
+#Extract speeches for Democratic
+#First find presidents who are Democratic:
+demop<-inaug.list[which(inaug.list$Party=="Democratic"),]$President
+#length(demop)
+#Totally there should be 22 presidents
+demo<-text[c(3:6,12:16,22:24,26,28,33,35,37,38,52,53,56,57)]
+
+#Extract speeches for Republican 
+repp<-inaug.list[which(inaug.list$Party=="Republican"),]$President
+repub<-text[c(1,2,7:11,17,20,21,25,27,39:44,47:49,51,54,55)]
+
+#Check out the wordcloud of most frequent words for Democratic
+wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
+wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
+```
+
+Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". These results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
+
+####Question 2: For each party (Repubilican and Democratic), for those who are considered as "best" (representative) presidents in the history, what is the difference in sentiments/emotions in their inaugural speeches?
+
+According to the article published in the website mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five presidents for each party, listed as following: 
+
+Repubilican: Abraham Lincoln, Ulysses S. Grant, Theodore Roosevelt, Dwight D. Eisenhower, Ronald Reagan
+
+Democratic: Franklin D. Roosevelt, Woodrow Wilson, Andrew Jackson, Harry S. Truman, and John F. Kennedy
+
+We will study the inaugural speeches from these ten presidents and conduct the sentiment analysis. 
+
+###2a.Generate sentences list by code given in the prof. Zheng's tutorial 2:
+```{r, message=FALSE, warning=FALSE}
+sentence.list=NULL
+for(i in 1:nrow(speech.list)){
+  sentences=sent_detect(speech.list$fulltext[i],
+                        endmarks = c("?", ".", "!", "|",";"))
+  if(length(sentences)>0){
+    emotions=get_nrc_sentiment(sentences)
+    word.count=word_count(sentences)
+    # colnames(emotions)=paste0("emo.", colnames(emotions))
+    # in case the word counts are zeros?
+    emotions=diag(1/(word.count+0.01))%*%as.matrix(emotions)
+    sentence.list=rbind(sentence.list, 
+                        cbind(speech.list[i,-ncol(speech.list)],
+                              sentences=as.character(sentences), 
+                              word.count,
+                              emotions,
+                              sent.id=1:length(sentences)
+                              )
+    )
+  }
+}
+
+sentence.list=sentence.list%>%filter(!is.na(word.count))
+```
+
+###2b.Conduct the Analysis
+
+```{r}
+#Creat a subset that contains five Repubilican presidents mentioned above
+
+#Extract sentiment score for five presidents:
+AL<-na.omit(sentence.list[which(sentence.list$President=="Abraham Lincoln"),13:22])
+UG<-na.omit(sentence.list[which(sentence.list$President=="Ulysses S. Grant"),13:22])
+TR<-na.omit(sentence.list[which(sentence.list$President=="Theodore Roosevelt"),13:22])
+DE<-na.omit(sentence.list[which(sentence.list$President=="Dwight D. Eisenhower"),13:22])
+RR<-na.omit(sentence.list[which(sentence.list$President=="Ronald Reagan"),13:22])
+
+
+#Average sentiment scores for five presidents:
+als<-apply(AL,2,mean)
+ugs<-apply(UG,2,mean)
+trs<-apply(TR,2,mean)
+des<-apply(DE,2,mean)
+rrs<-apply(RR,2,mean)
+
+#####################################################################################
+####Then we can record this information in a speard sheet in Excel for future use.###
+####When try to reproduce this project, please remeber to download and use ##########
+########################sscore.csv file. ############################################
+#####################################################################################
+
+#Repeat the same step as above for five Democratic Presidents:
+FR<-na.omit(sentence.list[which(sentence.list$President=="Franklin D. Roosevelt"),13:22])
+WW<-na.omit(sentence.list[which(sentence.list$President=="Woodrow Wilson"),13:22])
+AJ<-na.omit(sentence.list[which(sentence.list$President=="Andrew Jackson"),13:22])
+HT<-na.omit(sentence.list[which(sentence.list$President=="Harry S. Truman"),13:22])
+JK<-na.omit(sentence.list[which(sentence.list$President=="John F. Kennedy"),13:22])
+
+frs<-apply(FR,2,mean)
+wws<-apply(WW,2,mean)
+ajs<-apply(AJ,2,mean)
+hts<-apply(HT,2,mean)
+jks<-apply(JK,2,mean)
+
+#Load the sentiment score data:
+sscore<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/sentiment score.csv")
+sscore$score<-as.numeric(sscore$score)
+sscore$type<-as.factor(sscore$type)
+sscore$party<-as.factor(sscore$party)
+sscore$President<-as.factor(sscore$President)
+
+#Plot of those sentiments scores:
+ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
+  geom_point()+geom_line()+ggtitle("Figure2: Sentiment Scores for Ten Presidents")+theme_bw()+labs(x="Emotions / Sentiments",y="Sentiment Scores")
+
+```
+
+First observation I can make is that all presidents showed a very posotive attitude in their inaugural speeches. It is also make sense that "trust" is the second most popular emotion in the speech. However, it surprises me that the score for joy and fear are about the same, which means that in the speeches these two emotions weight about the same. 
+
+In terms of comparing for Repubilican and Democratic party, for some negative emotions, such as anger and disgust, presidents from the Democratic party tend to have better control than presidents from the Repubilican party do because most blues points are below red ones in the figure. On some positive emotions such as anticipating, joy, positive, and trust, presidents from Repubilican party are also have higher scores than Democratic party presidents do. From this, we may conclude that presidents from Repubilican party are more willing to share their feelings than those from Democratic party. 
+
+####Conclusion
+
+Through the analysis on presidents' inaugural speeches, we see there exist some differences between two major political parties in US, Repubilican and Democratic. the Repubilican tends to be more liberal and broad-minded while the Democratic is more conservative. The philosophy of each party is embraced well in presidents' inaugural speeches.  
+
