@@ -205,11 +205,16 @@ apply(HT,2,mean)
 apply(JK,2,mean)
 
 #Load the sentiment score data:
-sscore<-
-#Plot of those sentiments scores:
+sscore<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/sentiment score.csv")
+sscore$score<-as.numeric(sscore$score)
+sscore$type<-as.factor(sscore$type)
+sscore$party<-as.factor(sscore$party)
+sscore$President<-as.factor(sscore$President)
 
-ggplot(data=,ase(x=,y=))
-plot(FiveRepub[,1],type="l",col="red")
+#Plot of those sentiments scores:
+ggplot(data=sscore,aes(x=type,y=score,colour=President))+
+  geom_line()+ggtitle("Figure4.Boxplot of Sale Price vs. Number of Bedrooms")
+
 ```
 
 
