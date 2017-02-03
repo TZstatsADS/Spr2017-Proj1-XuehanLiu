@@ -109,7 +109,7 @@ Democratic: Franklin D. Roosevelt, Woodrow Wilson, Andrew Jackson, Harry S. Trum
 
 We will study the inaugural speeches from these ten presidents and conduct the sentiment analysis. 
 
-###Generate sentences list by code given in the prof. Zheng's tutorial 2:
+###2a.Generate sentences list by code given in the prof. Zheng's tutorial 2:
 ```{r, message=FALSE, warning=FALSE}
 sentence.list=NULL
 for(i in 1:nrow(speech.list)){
@@ -135,7 +135,7 @@ for(i in 1:nrow(speech.list)){
 sentence.list=sentence.list%>%filter(!is.na(word.count))
 ```
 
-####Conduct the Analysis
+###2b.Conduct the Analysis
 
 ```{r}
 #Creat a subset that contains five Repubilican presidents mentioned above
@@ -179,11 +179,12 @@ sscore$President<-as.factor(sscore$President)
 
 #Plot of those sentiments scores:
 ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
-  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()+labs(x="Emotions / Sentiments",y="Emotion Scores")
+  geom_point()+geom_line()+ggtitle("Figure2: Sentiment Scores for Ten Presidents")+theme_bw()+labs(x="Emotions / Sentiments",y="Sentiment Scores")
 
 ```
 
-Based on the 
+First observation I can make is that all presidents showed a very posotive attitude in their inaugural speeches. It is also make sense that "trust" is the second most popular emotion in the speech. However, it is kind surprise me that the score for joy and fear are about the same, which means that 
+for some negative emotions, such as anger and disgust, presidents from the Democratic party tends to have better control than presidents from the Repubilican do, because in the figure above, for anger and disgust, 
 
 
 
