@@ -7,43 +7,14 @@ output: html_notebook
 The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
 
 ###Laoding Data, Packages and Cleaning Up
-Before we are doing any further analysis, we load relative packages and our text file into R.
+Before we are doing any analysis, we load relative packages and text files into R.
 
 ```{r, message=FALSE, warning=FALSE}
-packages.used=c("rvest", "tibble", "qdap", 
-                "sentimentr", "gplots", "dplyr",
-                "tm", "syuzhet", "factoextra", 
-                "beeswarm", "scales", "RColorBrewer",
-                "RANN", "tm", "topicmodels")
-
-# check packages that need to be installed.
-packages.needed=setdiff(packages.used, 
-                        intersect(installed.packages()[,1], 
-                                  packages.used))
-# install additional packages
-if(length(packages.needed)>0){
-  install.packages(packages.needed, dependencies = TRUE)
-}
-
-# load packages
-library("rvest")
-library("tibble")
-library("qdap")
-library("sentimentr")
-library("gplots")
-library("dplyr")
-library("tm")
-library("syuzhet")
-library("factoextra")
-library("beeswarm")
-library("scales")
-library("RColorBrewer")
-library("RANN")
-library("tm")
-library("topicmodels")
-
-#source("../lib/plotstacked.R")
-#source("../lib/speechFuncs.R")
+library(tm)
+library(RColorBrewer)
+library(wordcloud)
+library(dplyr)
+library(tidytext)
 
 
 inaug.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/inauglist.csv", stringsAsFactors = FALSE)
@@ -55,20 +26,18 @@ speech.list$type=c(rep("inaug", nrow(inaug.list)),
                    rep("farewell", nrow(farewell.list)))
 speech.url=rbind(inaug.list, nomin.list, farewell.list)
 speech.list=cbind(speech.list, speech.url)
-```
 
 
-###Load the speeches:
-```{r}
 #Load the speeches:
 folder.path<-file.path("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/InauguralSpeeches/")
 #speeches<-list.files(path = folder.path, pattern = "*.txt")
 text<-Corpus(DirSource(folder.path))
 ```
 
-###Check whether Repbulican and Democratic are indeed domain the political parties in the US. 
 
-As we all know, Republican and Democratic are the two biggest parties in the America. So our focus is going to be at these parties. Before jump into the conclusion stated directly, we can use some graph and numerical tool to confirm this statement.  
+###Propotion of Repbulican and Democratic in the political parties in US. 
+
+As we all know, Republican and Democratic are the two biggest parties in the America. So our focus is going to be only these two parties. Before jump into the conclusion stated directly, we can use some graphical and numerical tool to confirm this statement.  
 
 ```{r}
 library(ggplot2)
@@ -84,13 +53,10 @@ From this Mosaic plot, we can see those presidents who won presidency, most of t
 
 ####Question 1: Do Repbulican and Democratic focus on different aspects? 
 
-```{r}
-library(tm)
-library(RColorBrewer)
-library(wordcloud)
-library(dplyr)
-library(tidytext)
+In this question, we use wordcloud method to illustrate important aspects that presidents may cover in their inaugural speeches by extracting keys words. These key words contains the main philosophy of the party a president represents. 
 
+Before going to either Repubilican or Democratic directly, let us look at the overall wordcloud for inaugural speeches.
+```{r}
 text <- tm_map(text, content_transformer(tolower))
 text<-tm_map(text, removeWords, stopwords("english"))
 text <- tm_map(text, stripWhitespace)
@@ -99,17 +65,20 @@ text<-tm_map(text, removePunctuation)
 text <- tm_map(text, PlainTextDocument) 
 
 #Check the overall wordcloud first:
-wordcloud(text,random.order=F,scale=c(3,0.5),max.word=40,colors=rainbow(40))
+wordcloud(text,random.order=F,scale=c(3,0.5),max.word=50,colors=rainbow(40))
 ```
-One thing we can use the overall wordcloud for is to continue removing unuseful words in the speeches. Based on the wordcloud above, we probably should eliminate words like will,people, government,shall, may, must, made, world,etc. We can repeat this steps many times and choose the most useful set of words to you. 
+
+One thing we can use this overall wordcloud for is to continue removing unuseful words in the speeches. Based on the wordcloud above, we probably should eliminate words like "will, people, government, shall, may, must, made, world",etc. We can repeat this step many times and finally choose the set of words that looks most useful and meaningful to you. 
 
 ```{r}
-#remove unuseful words mentioned above
+#Remove unuseful words mentioned above
 text<-tm_map(text, removeWords, c("will","people", "government","shall", "may", "must","made", "world","can","every","country","now","good","upon","states","nation","nations","america","great","national","rights","one","let","new","the","make","without","american","well","time","among","know","years","just","many"))
+
+#New Wordcloud:
 wordcloud(text,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 ```
 
-From the above wordcloud image, most of the words actually make sense.So we can start the comparison for Republican party and Democratic party from here.
+From the above wordcloud image, most of the words actually make sense. So we can start the comparison for Republican party and Democratic party from here.
 
 ```{r}
 #Extract speeches for Democratic
@@ -128,9 +97,9 @@ wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 wordcloud(repub,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))
 ```
 
-Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". This results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
+Looking at the those two wordcloud above, we can see the some of the Republican's most frequent words are "peace", "freedom", "united", and "spirit"; while the Democratic's are more about "constitution", "justice", "principles" and "power". These results are consistant with the political philosophies of these parties: Republican is liberal, who will care more about the humanism; while the Democratic is conservative, who will control the country in a way that relies on the rules. 
 
-####Question 2: for those who are considered as "best" (representative) presidents in the history, what is the difference in the speeches' sentiments/emotions for two ?
+####Question 2: For each party (Repubilican and Democratic), for those who are considered as "best" (representative) presidents in the history, what is the difference in sentiments/emotions in their inaugural speeches?
 
 According to the article published in the website mademan.com, (http://www.mademan.com/mm/5-best-democratic-presidents.html) and (http://www.mademan.com/mm/5-best-republican-presidents.html), we choose five presidents for each party, listed as following: 
 
