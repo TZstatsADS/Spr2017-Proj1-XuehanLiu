@@ -172,7 +172,8 @@ rrs<-apply(RR,2,mean)
 
 #####################################################################################
 ####Then we can record this information in a speard sheet in Excel for future use.###
-####When try to reproduce this project, please remeber to download and use ########## ####sscore.csv file.                                                       ##########
+####When try to reproduce this project, please remeber to download and use ##########
+########################sscore.csv file. ############################################
 #####################################################################################
 
 #Repeat the same step as above for five Democratic Presidents:
