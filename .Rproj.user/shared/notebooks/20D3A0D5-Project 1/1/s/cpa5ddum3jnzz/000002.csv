@@ -1,0 +1,20 @@
+"0","```r
+library(tm)
+library(RColorBrewer)
+library(wordcloud)
+library(dplyr)
+library(tidytext)
+inaug.list<-read.csv(\"/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/inauglist.csv\", stringsAsFactors = FALSE)
+nomin.list<-read.csv(\"/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/nominlist.csv\", stringsAsFactors = FALSE)
+farewell.list<-read.csv(\"/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/farewelllist.csv\", stringsAsFactors = FALSE)
+speech.list=rbind(inaug.list, nomin.list, farewell.list)
+speech.list$type=c(rep(\"inaug\", nrow(inaug.list)),
+                   rep(\"nomin\", nrow(nomin.list)),
+                   rep(\"farewell\", nrow(farewell.list)))
+speech.url=rbind(inaug.list, nomin.list, farewell.list)
+speech.list=cbind(speech.list, speech.url)
+#Load the speeches:
+folder.path<-file.path(\"/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/InauguralSpeeches/\")
+#speeches<-list.files(path = folder.path, pattern = \"*.txt\")
+text<-Corpus(DirSource(folder.path))
+```"

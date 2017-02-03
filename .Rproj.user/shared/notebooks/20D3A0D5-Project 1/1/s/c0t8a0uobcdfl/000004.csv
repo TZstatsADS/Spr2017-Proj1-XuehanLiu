@@ -1,0 +1,11 @@
+"0","```r
+table(as.factor(inaug.list$Party))/length(inaug.list$Party)
+```"
+"1","
+                 Democratic Democratic-Republican Party 
+                 0.37931034                  0.12068966 
+                  Fedralist                  Republican 
+                 0.01724138                  0.41379310 
+                       Whig 
+                 0.03448276 
+"

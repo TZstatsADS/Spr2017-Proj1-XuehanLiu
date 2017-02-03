@@ -1,0 +1,3 @@
+"0","par(mfrow=c(4,1), mar=c(1,0,2,0), bty=""n"", xaxt=""n"", yaxt=""n"", font.main=1)"
+"0","f.plotsent.len(In.list=sentence.list, InFile=""HillaryClinton"", "
+"0","               InType=""nomin"", InTerm=1, President=""Hillary Clinton"")"

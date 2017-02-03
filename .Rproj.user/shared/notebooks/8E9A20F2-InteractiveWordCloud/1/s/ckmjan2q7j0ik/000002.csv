@@ -1,0 +1,8 @@
+"0","```r
+dtm <- DocumentTermMatrix(ff.all,
+                          control = list(weighting = function(x)
+                                             weightTfIdf(x, 
+                                                         normalize =FALSE),
+                                         stopwords = TRUE))
+ff.dtm=tidy(dtm)
+```"

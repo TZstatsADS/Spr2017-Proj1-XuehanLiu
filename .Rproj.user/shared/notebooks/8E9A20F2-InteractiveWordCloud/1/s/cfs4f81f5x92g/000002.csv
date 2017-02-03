@@ -1,0 +1,10 @@
+"0","```r
+ff.all<-tm_map(ff.all, stripWhitespace)
+ff.all<-tm_map(ff.all, content_transformer(tolower))
+ff.all<-tm_map(ff.all, removeWords, stopwords(\"english\"))
+ff.all<-tm_map(ff.all, removeWords, character(0))
+ff.all<-tm_map(ff.all, removePunctuation)
+tdm.all<-TermDocumentMatrix(ff.all)
+tdm.tidy=tidy(tdm.all)
+tdm.overall=summarise(group_by(tdm.tidy, term), sum(count))
+```"

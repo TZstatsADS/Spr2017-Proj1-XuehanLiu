@@ -1,0 +1,24 @@
+"0","```r
+sentence.list=NULL
+for(i in 1:nrow(speech.list)){
+  sentences=sent_detect(speech.list$fulltext[i],
+                        endmarks = c(\"?\", \".\", \"!\", \"|\",\";\"))
+  if(length(sentences)>0){
+    emotions=get_nrc_sentiment(sentences)
+    word.count=word_count(sentences)
+    # colnames(emotions)=paste0(\"emo.\", colnames(emotions))
+    # in case the word counts are zeros?
+    emotions=diag(1/(word.count+0.01))%*%as.matrix(emotions)
+    sentence.list=rbind(sentence.list, 
+                        cbind(speech.list[i,-ncol(speech.list)],
+                              sentences=as.character(sentences), 
+                              word.count,
+                              emotions,
+                              sent.id=1:length(sentences)
+                              )
+    )
+  }
+}
+
+sentence.list=sentence.list%>%filter(!is.na(word.count))
+```"

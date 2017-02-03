@@ -1,0 +1,6 @@
+"0","emo.means=colMeans(select(sentence.list, anger:trust)>0.01)"
+"0","col.use=c(""red2"", ""darkgoldenrod1"", "
+"0","            ""chartreuse3"", ""blueviolet"","
+"0","            ""darkgoldenrod2"", ""dodgerblue3"", "
+"0","            ""darkgoldenrod1"", ""darkgoldenrod1"")"
+"0","barplot(emo.means[order(emo.means)], las=2, col=col.use[order(emo.means)], horiz=T, main=""Inaugural Speeches"")"

@@ -1,0 +1,5 @@
+"0","sentence.list%>%"
+"0","  filter(File==""WilliamJClinton"", "
+"0","         type==""nomin"", Term==1,"
+"0","         word.count<=3)%>%"
+"0","  select(sentences)"

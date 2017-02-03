@@ -1,0 +1,8 @@
+"0","```r
+library(ggplot2)
+speech.list$Party<-as.factor(speech.list$Party)
+speech.list$Win<-as.factor(speech.list$Win)
+levels(speech.list$Win)[1]<-\"No\"
+levels(speech.list$Win)[2]<-\"Yes\"
+ggplot(aes(x=Win,fill=Party),data=speech.list)+geom_bar(position=\"fill\")+scale_fill_brewer(palette=\"Set1\")+xlab(\"Winning Presidency\")+ylab(\"Percent\")+coord_flip()+theme_bw()+ggtitle(\"Figure1: Propotion of Winning Presidency\")+theme(plot.title=element_text(lineheight=.8))
+```"

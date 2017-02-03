@@ -1,0 +1,6 @@
+"0","```r
+folder.path=\"../data/inaugurals/\"
+speeches=list.files(path = folder.path, pattern = \"*.txt\")
+prex.out=substr(speeches, 6, nchar(speeches)-4)
+ff.all<-Corpus(DirSource(folder.path))
+```"

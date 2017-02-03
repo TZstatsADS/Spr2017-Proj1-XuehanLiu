@@ -1,0 +1,6 @@
+"0","speech.list=rbind(inaug.list, nomin.list, farewell.list)"
+"0","speech.list$type=c(rep(""inaug"", nrow(inaug.list)),"
+"0","                   rep(""nomin"", nrow(nomin.list)),"
+"0","                   rep(""farewell"", nrow(farewell.list)))"
+"0","speech.url=rbind(inaug, nomin, farewell)"
+"0","speech.list=cbind(speech.list, speech.url)"

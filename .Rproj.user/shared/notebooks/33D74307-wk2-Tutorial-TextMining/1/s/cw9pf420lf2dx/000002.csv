@@ -1,0 +1,4 @@
+"0","heatmap.2(cor(sentence.list%>%filter(type==""inaug"")%>%select(anger:trust)), "
+"0","          scale = ""none"", "
+"0","          col = bluered(100), , margin=c(6, 6), key=F,"
+"0","          trace = ""none"", density.info = ""none"")"
