@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 ####Introduction
-The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding of both the Repbulican and Democratic parties' philosophy. 
+The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding how well both the Repbulican and Democratic do to integrate their parties' philosophy. 
 
 ###Laoding Data, Packages and Cleaning Up
 Before we are doing any analysis, we load relative packages and text files into R.
@@ -185,9 +185,9 @@ ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
 
 First observation I can make is that all presidents showed a very posotive attitude in their inaugural speeches. It is also make sense that "trust" is the second most popular emotion in the speech. However, it surprises me that the score for joy and fear are about the same, which means that in the speeches these two emotions weight about the same. 
 
-In terms of comparing for Repubilican and Democratic party, for some negative emotions, such as anger and disgust, presidents from the Democratic party tend to have better control than presidents from the Repubilican party do because most blues points are below red ones in the figure. On some positive emotions such as anticipating, joy, positive, and trust, presidents from Repubilican party are also have higher scores that Democratic party presidents do. 
+In terms of comparing for Repubilican and Democratic party, for some negative emotions, such as anger and disgust, presidents from the Democratic party tend to have better control than presidents from the Repubilican party do because most blues points are below red ones in the figure. On some positive emotions such as anticipating, joy, positive, and trust, presidents from Repubilican party are also have higher scores than Democratic party presidents do. From this, we may conclude that presidents from Repubilican party are more willing to share their feelings than those from Democratic party. 
 
 ####Conclusion
 
-
+Through the analysis on presidents' inaugural speeches, we see there exist some differences between two major political parties in US, Repubilican and Democratic. the Repubilican tends to be more liberal and broad-minded while the Democratic is more conservative. The philosophy of each party is embraced well in presidents' inaugural speeches.  
 
