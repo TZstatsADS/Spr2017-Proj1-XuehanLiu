@@ -2,6 +2,7 @@
 title: "GR5243 Project1 by Xuehan Liu (xl2615)"
 output:
   html_notebook: default
+  html_document: default
   pdf_document: default
   word_document: default
 ---
@@ -9,15 +10,26 @@ output:
 ####Introduction
 The president election in the US has been the hottest topic in the past few months. The competition between Repbulican party and Democratic party is accelerated. In order to understands more about Repbulican and Democratic, we will looking at the inaugural speeches that given by previous presidents from these two parties. There will be two major questions we can answer with this project: 1) Do Repbulican and Democratic focus on different aspects? and 2) For those who are considered as typical representative for each party, what sentiments they carries in their inaugural speeches? Is there any difference for two parties? With the answer to both questions, we will have a deeper understanding how well both the Repbulican and Democratic do to integrate their parties' philosophy. 
 
-###Laoding Data, Packages and Cleaning Up
+###Loading Data, Packages and Cleaning Up
 Before we are doing any analysis, we load relative packages and text files into R.
 
 ```{r, message=FALSE, warning=FALSE}
-library(tm)
-library(RColorBrewer)
-library(wordcloud)
-library(dplyr)
-library(tidytext)
+library("rvest")
+library("tibble")
+library("qdap")
+library("sentimentr")
+library("gplots")
+library("dplyr")
+library("tm")
+library("syuzhet")
+library("factoextra")
+library("beeswarm")
+library("scales")
+library("RColorBrewer")
+library("RANN")
+library("tm")
+library("topicmodels")
+library("wordcloud")
 
 
 inaug.list<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/inauglist.csv", stringsAsFactors = FALSE)
