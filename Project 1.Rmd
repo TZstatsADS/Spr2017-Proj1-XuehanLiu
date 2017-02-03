@@ -213,7 +213,8 @@ sscore$President<-as.factor(sscore$President)
 
 #Plot of those sentiments scores:
 ggplot(data=sscore,aes(x=type,y=score,colour=President))+
-  geom_line()+ggtitle("Figure4.Boxplot of Sale Price vs. Number of Bedrooms")
+  geom_point()+ggtitle("Figure2.Sentiment Score for Ten Presidents")
+
 
 ```
 
