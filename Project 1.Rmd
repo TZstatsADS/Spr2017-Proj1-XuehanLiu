@@ -1,6 +1,9 @@
 ---
-title: "GR5243 Project 1 by Xuehan Liu (xl2615)"
-output: html_notebook
+title: "GR5243 Project1 by Xuehan Liu (xl2615)"
+output:
+  html_notebook: default
+  pdf_document: default
+  word_document: default
 ---
 
 ####Introduction
