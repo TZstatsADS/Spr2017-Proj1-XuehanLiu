@@ -167,7 +167,7 @@ sentence.list=sentence.list%>%filter(!is.na(word.count))
 
 
 
-```{r, fig.height=2.5, fig.width=2}
+```{r}
 #Creat a subset that contains five Repubilican presidents mentioned above
 #FiveRepub<- sentence.list[sentence.list$President==c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan"),13:22]
 
@@ -180,11 +180,11 @@ RR<-na.omit(sentence.list[which(sentence.list$President=="Ronald Reagan"),13:22]
 
 
 #Average sentiment scores for five presidents:
-apply(AL,2,mean)
-apply(UG,2,mean)
-apply(TR,2,mean)
-apply(DE,2,mean)
-apply(RR,2,mean)
+als<-apply(AL,2,mean)
+ugs<-apply(UG,2,mean)
+trs<-apply(TR,2,mean)
+des<-apply(DE,2,mean)
+rrs<-apply(RR,2,mean)
 
 #Then we can record this information in a speard sheet in Excel for future use. 
 
@@ -198,11 +198,11 @@ AJ<-na.omit(sentence.list[which(sentence.list$President=="Andrew Jackson"),13:22
 HT<-na.omit(sentence.list[which(sentence.list$President=="Harry S. Truman"),13:22])
 JK<-na.omit(sentence.list[which(sentence.list$President=="John F. Kennedy"),13:22])
 
-apply(FR,2,mean)
-apply(WW,2,mean)
-apply(AJ,2,mean)
-apply(HT,2,mean)
-apply(JK,2,mean)
+frs<-apply(FR,2,mean)
+wws<-apply(WW,2,mean)
+ajs<-apply(AJ,2,mean)
+hts<-apply(HT,2,mean)
+jks<-apply(JK,2,mean)
 
 #Load the sentiment score data:
 sscore<-read.csv("/Users/xuehan/Desktop/5243 ADS/Spr2017-Proj1-XuehanLiu/data/sentiment score.csv")
@@ -213,7 +213,7 @@ sscore$President<-as.factor(sscore$President)
 
 #Plot of those sentiments scores:
 ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
-  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")
+  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()
 
 
 ```
