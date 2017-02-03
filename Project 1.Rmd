@@ -213,7 +213,7 @@ sscore$President<-as.factor(sscore$President)
 
 #Plot of those sentiments scores:
 ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
-  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()
+  geom_point()+geom_line()+ggtitle("Figure2.Sentiment Score for Ten Presidents")+theme_bw()+labs(x="Emotions",y="Emotion Scores")
 
 
 ```
