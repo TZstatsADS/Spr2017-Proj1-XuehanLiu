@@ -183,8 +183,11 @@ ggplot(data=sscore,aes(x=type,y=score,colour=party,group=President))+
 
 ```
 
-First observation I can make is that all presidents showed a very posotive attitude in their inaugural speeches. It is also make sense that "trust" is the second most popular emotion in the speech. However, it is kind surprise me that the score for joy and fear are about the same, which means that 
-for some negative emotions, such as anger and disgust, presidents from the Democratic party tends to have better control than presidents from the Repubilican do, because in the figure above, for anger and disgust, 
+First observation I can make is that all presidents showed a very posotive attitude in their inaugural speeches. It is also make sense that "trust" is the second most popular emotion in the speech. However, it surprises me that the score for joy and fear are about the same, which means that in the speeches these two emotions weight about the same. 
+
+In terms of comparing for Repubilican and Democratic party, for some negative emotions, such as anger and disgust, presidents from the Democratic party tend to have better control than presidents from the Repubilican party do because most blues points are below red ones in the figure.   
+
+####Conclusion
 
 
 
