@@ -169,14 +169,14 @@ sentence.list=sentence.list%>%filter(!is.na(word.count))
 
 ```{r, fig.height=2.5, fig.width=2}
 #Creat a subset that contains five Repubilican presidents mentioned above
-FiveRepub<- sentence.list[sentence.list$President==c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan"),13:22]
+#FiveRepub<- sentence.list[sentence.list$President==c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan"),13:22]
 
 #Extract sentiment score for five presidents:
-AL<-sentence.list[which(sentence.list$President=="Abraham Lincoln"),13:22]
-UG<-sentence.list[which(sentence.list$President=="Ulysses S. Grant"),13:22]
-TR<-sentence.list[which(sentence.list$President=="Theodore Roosevelt"),13:22]
-DE<-sentence.list[which(sentence.list$President=="Dwight D. Eisenhower"),13:22]
-RR<-sentence.list[which(sentence.list$President=="Ronald Reagan"),13:22]
+AL<-na.omit(sentence.list[which(sentence.list$President=="Abraham Lincoln"),13:22])
+UG<-na.omit(sentence.list[which(sentence.list$President=="Ulysses S. Grant"),13:22])
+TR<-na.omit(sentence.list[which(sentence.list$President=="Theodore Roosevelt"),13:22])
+DE<-na.omit(sentence.list[which(sentence.list$President=="Dwight D. Eisenhower"),13:22])
+RR<-na.omit(sentence.list[which(sentence.list$President=="Ronald Reagan"),13:22])
 
 
 #Average sentiment scores for five presidents:
@@ -186,10 +186,27 @@ apply(TR,2,mean)
 apply(DE,2,mean)
 apply(RR,2,mean)
 
+#Then we can record this information in a speard sheet in Excel for future use. 
 
-#Creat a subset that contains five Democratic presidents mentioned above
-FiveDemo<-
+#FiveRepub<-cbind(data.frame(apply(AL,2,mean)),data.frame(apply(UG,2,mean)),data.frame(apply(TR,2,mean)),data.frame(apply(DE,2,mean)),data.frame(apply(RR,2,mean)))
+#colnames(FiveRepub)<-c("Abraham Lincoln","Ulysses S. Grant","Theodore Roosevelt","Dwight D. Eisenhower","Ronald Reagan")
 
+#Repeat the same step as above for five Democratic Presidents:
+FR<-na.omit(sentence.list[which(sentence.list$President=="Franklin D. Roosevelt"),13:22])
+WW<-na.omit(sentence.list[which(sentence.list$President=="Woodrow Wilson"),13:22])
+AJ<-na.omit(sentence.list[which(sentence.list$President=="Andrew Jackson"),13:22])
+HT<-na.omit(sentence.list[which(sentence.list$President=="Harry S. Truman"),13:22])
+JK<-na.omit(sentence.list[which(sentence.list$President=="John F. Kennedy"),13:22])
+
+apply(FR,2,mean)
+apply(WW,2,mean)
+apply(AJ,2,mean)
+apply(HT,2,mean)
+apply(JK,2,mean)
+
+#Plot of those sentiments scores:
+ggplot(data=FiveRepub,ase(x=,y=))
+plot(FiveRepub[,1],type="l",col="red")
 ```
 
 
