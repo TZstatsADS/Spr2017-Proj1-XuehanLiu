@@ -295,6 +295,30 @@ wordcloud(demo,random.order=F,scale=c(3,0.5),max.word=30,colors=rainbow(40))</co
 <h3>2a.Generate sentences list by code given in the prof. Zheng’s tutorial 2:</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VudGVuY2UubGlzdD1OVUxMXG5mb3IoaSBpbiAxOm5yb3coc3BlZWNoLmxpc3QpKXtcbiAgc2VudGVuY2VzPXNlbnRfZGV0ZWN0KHNwZWVjaC5saXN0JGZ1bGx0ZXh0W2ldLFxuICAgICAgICAgICAgICAgICAgICAgICAgZW5kbWFya3MgPSBjKFwiP1wiLCBcIi5cIiwgXCIhXCIsIFwifFwiLFwiO1wiKSlcbiAgaWYobGVuZ3RoKHNlbnRlbmNlcyk+MCl7XG4gICAgZW1vdGlvbnM9Z2V0X25yY19zZW50aW1lbnQoc2VudGVuY2VzKVxuICAgIHdvcmQuY291bnQ9d29yZF9jb3VudChzZW50ZW5jZXMpXG4gICAgIyBjb2xuYW1lcyhlbW90aW9ucyk9cGFzdGUwKFwiZW1vLlwiLCBjb2xuYW1lcyhlbW90aW9ucykpXG4gICAgIyBpbiBjYXNlIHRoZSB3b3JkIGNvdW50cyBhcmUgemVyb3M/XG4gICAgZW1vdGlvbnM9ZGlhZygxLyh3b3JkLmNvdW50KzAuMDEpKSUqJWFzLm1hdHJpeChlbW90aW9ucylcbiAgICBzZW50ZW5jZS5saXN0PXJiaW5kKHNlbnRlbmNlLmxpc3QsIFxuICAgICAgICAgICAgICAgICAgICAgICAgY2JpbmQoc3BlZWNoLmxpc3RbaSwtbmNvbChzcGVlY2gubGlzdCldLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VudGVuY2VzPWFzLmNoYXJhY3RlcihzZW50ZW5jZXMpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHdvcmQuY291bnQsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbW90aW9ucyxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlbnQuaWQ9MTpsZW5ndGgoc2VudGVuY2VzKVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKVxuICAgIClcbiAgfVxufVxuXG5zZW50ZW5jZS5saXN0PXNlbnRlbmNlLmxpc3QlPiVmaWx0ZXIoIWlzLm5hKHdvcmQuY291bnQpKVxuYGBgIn0= -->
+<pre class="r"><code>sentence.list=NULL
+for(i in 1:nrow(speech.list)){
+  sentences=sent_detect(speech.list$fulltext[i],
+                        endmarks = c(&quot;?&quot;, &quot;.&quot;, &quot;!&quot;, &quot;|&quot;,&quot;;&quot;))
+  if(length(sentences)&gt;0){
+    emotions=get_nrc_sentiment(sentences)
+    word.count=word_count(sentences)
+    # colnames(emotions)=paste0(&quot;emo.&quot;, colnames(emotions))
+    # in case the word counts are zeros?
+    emotions=diag(1/(word.count+0.01))%*%as.matrix(emotions)
+    sentence.list=rbind(sentence.list, 
+                        cbind(speech.list[i,-ncol(speech.list)],
+                              sentences=as.character(sentences), 
+                              word.count,
+                              emotions,
+                              sent.id=1:length(sentences)
+                              )
+    )
+  }
+}
+
+sentence.list=sentence.list%&gt;%filter(!is.na(word.count))</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
